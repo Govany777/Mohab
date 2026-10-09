@@ -145,16 +145,9 @@
       <h2 id="film-heading" data-i18n="film.title">Our beautiful moments</h2>
       <p class="film-intro" data-i18n="film.intro">A little glimpse of the joy we share.</p>
       <div class="film-frame" id="film-frame">
-        <video id="wedding-film" tabindex="0" playsinline preload="none" poster="assets/couple/film-poster.webp"
-          data-src="assets/couple/our-film.mp4" data-i18n-aria-label="film.title" aria-label="Our beautiful moments" width="1280"
+        <video id="wedding-film" tabindex="0" playsinline preload="auto" controls
+          src="assets/couple/our-film.mp4" data-i18n-aria-label="film.title" aria-label="Our beautiful moments" width="1280"
           height="720"></video>
-        <button class="film-play" id="film-play" type="button" data-i18n-aria-label="film.play"
-          aria-label="Play our film">
-          <span class="film-play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8 5v14l11-7z" />
-            </svg></span>
-          <span data-i18n="film.play">Play our film</span>
-        </button>
       </div>
       <p class="film-error" id="film-error" role="status" data-i18n="film.error" hidden>The film could not play. Please
         tap play to try again.</p>
@@ -542,24 +535,25 @@
     const filmPlay = document.getElementById('film-play');
     const filmError = document.getElementById('film-error');
     function showFilmError() {
-      filmError.hidden = false;
-      filmFrame.classList.remove('film-started');
-      weddingFilm.controls = false;
+      if (filmError) filmError.hidden = false;
+      if (filmFrame) filmFrame.classList.remove('film-started');
     }
-    filmPlay.addEventListener('click', async () => {
-      filmError.hidden = true;
-      if (!weddingFilm.getAttribute('src') || weddingFilm.error) {
-        weddingFilm.src = weddingFilm.dataset.src;
-        weddingFilm.load();
-      }
-      weddingFilm.controls = true;
-      try { await weddingFilm.play(); weddingFilm.focus(); } catch (error) { showFilmError(); }
-    });
+    if (filmPlay) {
+      filmPlay.addEventListener('click', async () => {
+        if (filmError) filmError.hidden = true;
+        if (!weddingFilm.getAttribute('src') || weddingFilm.error) {
+          weddingFilm.src = weddingFilm.dataset.src || 'assets/couple/our-film.mp4';
+          weddingFilm.load();
+        }
+        weddingFilm.controls = true;
+        try { await weddingFilm.play(); weddingFilm.focus(); } catch (error) { showFilmError(); }
+      });
+    }
     weddingFilm.addEventListener('play', () => {
       filmMusicWasPlaying = filmMusicWasPlaying || !bgMusicEl.paused;
       bgMusicEl.pause();
-      filmError.hidden = true;
-      filmFrame.classList.add('film-started');
+      if (filmError) filmError.hidden = true;
+      if (filmFrame) filmFrame.classList.add('film-started');
     });
     function restoreFilmMusic() {
       if (filmMusicWasPlaying) {
