@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Mohab and Roma//Wedding Invitation//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:mohab-roma-wedding-2026@baron-palace
+DTSTAMP:20260101T000000Z
+DTSTART:20261015T130000Z
+DTEND:20261015T220000Z
+SUMMARY:Mohab & Roma — Wedding Celebration
+LOCATION:Baron Palace Wedding Venue
+DESCRIPTION:Photo session at 4:00 PM, reception at 8:00 PM, and wedding begins at 9:00 PM.
+END:VEVENT
+END:VCALENDAR
